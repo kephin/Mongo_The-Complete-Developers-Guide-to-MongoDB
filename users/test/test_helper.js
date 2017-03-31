@@ -2,10 +2,14 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://localhost/users_test');
-mongoose.connection
-  .once('open', () => console.log('Here we go!'))
-  .on('error', err => console.warn('Warning', err));
+// before the whole test for one time
+before((done) => {
+  mongoose.connect('mongodb://localhost/users_test');
+  mongoose.connection
+    // begin the test after the connection is done
+    .once('open', () => done())
+    .on('error', err => console.warn('Warning', err));
+});
 
 beforeEach((done) => {
   // drop accept a callback function
