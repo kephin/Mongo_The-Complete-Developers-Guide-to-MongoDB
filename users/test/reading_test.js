@@ -18,4 +18,13 @@ describe('Readig records', () => {
         done();
       });
   });
+  it('finds a user with a particular id', (done) => {
+    // User.findOne => returns the first record
+    // no need to toString() the kevin._id because Mongoose knows how to parse the objectID
+    User.findOne({ _id: kevin._id })
+      .then(user => {
+        assert(user.name = 'kevin');
+        done();
+      });
+  });
 });
