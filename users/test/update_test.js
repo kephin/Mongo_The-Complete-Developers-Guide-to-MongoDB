@@ -28,4 +28,13 @@ describe('Updating records', () => {
     kevin.save()
       .then(() => assertName(done));
   });
+  it('model instance update()', (done) => {
+    // update() is when you want to do in one go, save it all, call it done
+    kevin.update({
+        name: 'kephin',
+        // age: 30,
+        // ...
+      })
+      .then(() => assertName(done));
+  });
 });
