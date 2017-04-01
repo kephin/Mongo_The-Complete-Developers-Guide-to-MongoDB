@@ -29,4 +29,20 @@ describe('Deleting records', () => {
         done();
       });
   });
+  it('class method findOneAndRomve()', (done) => {
+    User.findOneAndRemove({ name: 'kevin' })
+      .then(() => User.findOne({ name: 'kevin' }))
+      .then(user => {
+        assert(user === null);
+        done();
+      });
+  });
+  it('class method findByIdAndRemove()', (done) => {
+    User.findByIdAndRemove(kevin._id)
+      .then(() => User.findOne({ name: 'kevin' }))
+      .then(user => {
+        assert(user === null);
+        done();
+      });
+  });
 });
