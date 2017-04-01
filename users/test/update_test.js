@@ -9,6 +9,15 @@ describe('Updating records', () => {
     kevin.save().then(() => done());
   });
 
+  const assertName = (done) => {
+    User.find({})
+      .then(users => {
+        assert(users.length === 1);
+        assert(users[0].name === 'kephin');
+        done();
+      });
+  };
+
   // Model instance method
   it('model instance using set() and save()', (done) => {
     // set() is when you want to do a piece of property update at different time, and save them in the end
@@ -17,11 +26,6 @@ describe('Updating records', () => {
     // kevin.set('gender', 'male');
     // ...
     kevin.save()
-      .then(() => User.find({}))
-      .then(users => {
-        assert(users.length === 1);
-        assert(users[0].name === 'kephin');
-        done();
-      });
+      .then(() => assertName(done));
   });
 });
