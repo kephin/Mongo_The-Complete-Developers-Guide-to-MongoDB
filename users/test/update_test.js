@@ -5,7 +5,7 @@ describe('Updating records', () => {
   let kevin;
 
   beforeEach((done) => {
-    kevin = new User({ name: 'kevin' });
+    kevin = new User({ name: 'kevin', postCount: 0 });
     kevin.save().then(() => done());
   });
 
@@ -50,5 +50,21 @@ describe('Updating records', () => {
   it('class method findByIdAndUpdate()', (done) => {
     User.findByIdAndUpdate(kevin._id, { name: 'kephin' })
       .then(() => assertName(done));
+  });
+
+  // Model class method using update operator: $inc, $mul, $set...
+  /*
+  The reason why to use update operator is that it is super efficient,
+  conpared to load the database, iterate every record, make some changes and send it back.
+  Update operator is fantastically useful whenever you want to change a bunch of records in one go.
+  */
+  it('class method using update operator: $int', (done) => {
+    // user can have their postCount incremented by 1
+    User.update({ name: 'kevin' }, { $inc: { postCount: 1 } })
+      .then(() => User.findOne({ name: 'kevin' }))
+      .then(user => {
+        assert(user.postCount === 1);
+        done();
+      });
   });
 });
