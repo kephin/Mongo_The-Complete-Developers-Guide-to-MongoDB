@@ -7,6 +7,11 @@ const userSchema = new Schema({
     // built-in validator: required, min, max, min-length...
     // the 2nd argument is the message displayed when invalid
     required: [true, 'Name is required.'],
+    // custom validator
+    validate: {
+      validator: name => name.length > 2,
+      message: 'Name must be longer than 2 characters.',
+    },
   },
   postCount: Number,
 });
