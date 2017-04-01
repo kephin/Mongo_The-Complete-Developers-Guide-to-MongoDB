@@ -37,4 +37,18 @@ describe('Updating records', () => {
       })
       .then(() => assertName(done));
   });
+
+  // Model class method
+  it('class method update()', (done) => {
+    User.update({ name: 'kevin' }, { name: 'kephin' })
+      .then(() => assertName(done));
+  });
+  it('class method findOneAndUpdate()', (done) => {
+    User.findOneAndUpdate({ name: 'kevin' }, { name: 'kephin' })
+      .then(() => assertName(done));
+  });
+  it('class method findByIdAndUpdate()', (done) => {
+    User.findByIdAndUpdate(kevin._id, { name: 'kephin' })
+      .then(() => assertName(done));
+  });
 });
