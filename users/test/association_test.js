@@ -19,4 +19,13 @@ describe('Association', () => {
     Promise.all([kevin.save(), blogPost.save(), comment.save()])
       .then(() => done());
   });
+
+  it('saves a relation between a user and a blogpost', (done) => {
+    User.findOne({ name: 'kevin' })
+      .populate('blogPosts')
+      .then(user => {
+        assert(user.blogPosts[0].content === 'JS is great!');
+        done();
+      });
+  });
 });
