@@ -58,7 +58,7 @@ describe('Updating records', () => {
   conpared to load the database, iterate every record, make some changes and send it back.
   Update operator is fantastically useful whenever you want to change a bunch of records in one go.
   */
-  it('class method using update operator: $int', (done) => {
+  xit('class method using update operator: $int', (done) => {
     // user can have their postCount incremented by 1
     User.update({ name: 'kevin' }, { $inc: { postCount: 1 } })
       .then(() => User.findOne({ name: 'kevin' }))
