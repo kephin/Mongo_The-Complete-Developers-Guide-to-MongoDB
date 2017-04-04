@@ -13,5 +13,11 @@ before((done) => {
 
 beforeEach((done) => {
   // drop accept a callback function
-  mongoose.connection.collections.users.drop(() => done());
+  // Beware: mongoose will normalize the collection name to lowercase, blogPosts => blogposts
+  const { users, blogposts, comments } = mongoose.connection.collections;
+  users.drop(() => {
+    blogposts.drop(() => {
+      comments.drop(() => done());
+    });
+  });
 });
