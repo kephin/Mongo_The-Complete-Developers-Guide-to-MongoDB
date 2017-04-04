@@ -39,7 +39,7 @@ describe('Subdocuments', () => {
       })
       .then(() => User.findOne({ name: 'kevin' }))
       .then(user => {
-        assert(user.posts[0].title === 'firstPostTitle');
+        assert(user.postCount === 1);
         done();
       });
   });
