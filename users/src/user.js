@@ -15,6 +15,7 @@ const userSchema = new Schema({
     },
   },
   posts: [postSchema],
+  likes: Number,
 });
 
 userSchema.virtual('postCount').get(function () {

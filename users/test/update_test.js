@@ -5,7 +5,7 @@ describe('Updating records', () => {
   let kevin;
 
   beforeEach((done) => {
-    kevin = new User({ name: 'kevin', postCount: 0 });
+    kevin = new User({ name: 'kevin', likes: 0 });
     kevin.save().then(() => done());
   });
 
@@ -58,12 +58,12 @@ describe('Updating records', () => {
   conpared to load the database, iterate every record, make some changes and send it back.
   Update operator is fantastically useful whenever you want to change a bunch of records in one go.
   */
-  xit('class method using update operator: $int', (done) => {
-    // user can have their postCount incremented by 1
-    User.update({ name: 'kevin' }, { $inc: { postCount: 1 } })
+  it('class method using update operator: $int', (done) => {
+    // user can have their likes incremented by 1
+    User.update({ name: 'kevin' }, { $inc: { likes: 1 } })
       .then(() => User.findOne({ name: 'kevin' }))
       .then(user => {
-        assert(user.postCount === 1);
+        assert(user.likes === 1);
         done();
       });
   });
