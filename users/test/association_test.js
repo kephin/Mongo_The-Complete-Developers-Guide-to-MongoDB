@@ -28,4 +28,25 @@ describe('Association', () => {
         done();
       });
   });
+  it('saves a full relation graph', (done) => {
+    User.findOne({ name: 'kevin' })
+      .populate({
+        path: 'blogPosts',
+        populate: {
+          path: 'comments',
+          // model: 'comment',
+          populate: {
+            path: 'user',
+            // model: 'user',
+          },
+        },
+      })
+      .then(user => {
+        assert(user.name === 'kevin');
+        assert(user.blogPosts[0].content === 'JS is great!');
+        assert(user.blogPosts[0].comments[0].content === 'Totally agree with you.');
+        assert(user.blogPosts[0].comments[0].user.name === 'kevin');
+        done();
+      });
+  });
 });
