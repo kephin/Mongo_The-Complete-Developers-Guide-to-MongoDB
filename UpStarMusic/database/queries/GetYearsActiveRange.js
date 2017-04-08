@@ -17,5 +17,5 @@ module.exports = () => {
     .then(artists => artists[0].yearsActive);
 
   return Promise.all([minQuery, maxQuery])
-    .then(res => ({ min: res[0], max: res[1] }));
+    .then(([min, max]) => ({ min, max }));
 };
