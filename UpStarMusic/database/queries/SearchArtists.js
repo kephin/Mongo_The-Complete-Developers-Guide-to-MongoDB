@@ -10,7 +10,9 @@ const Artist = require('../models/artist');
  */
 module.exports = (criteria, sortProperty, offset = 0, limit = 20) => {
   const buildQuery = (criteria) => {
-    const query = {};
+    const query = {
+      name: { $regex: new RegExp(criteria.name, 'i') },
+    };
     if (criteria.age) {
       query.age = {
         $gte: criteria.age.min,
