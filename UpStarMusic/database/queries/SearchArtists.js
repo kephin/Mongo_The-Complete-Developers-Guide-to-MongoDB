@@ -9,26 +9,30 @@ const Artist = require('../models/artist');
  * @return {promise} A promise that resolves with the artists, count, offset, and limit
  */
 module.exports = (criteria, sortProperty, offset = 0, limit = 20) => {
-  const ageRange = require('./GetAgeRange');
-  const yearsActiveRange = require('./GetYearsActiveRange');
+  const buildQuery = (criteria) => {
+    const query = {};
+    if (criteria.age) {
+      query.age = {
+        $gte: criteria.age.min,
+        $lte: criteria.age.max,
+      };
+    }
+    if (criteria.yearsActive) {
+      query.yearsActive = {
+        $gte: criteria.yearsActive.min,
+        $lte: criteria.yearsActive.max,
+      };
+    }
+    return query;
+  };
 
-  return Promise.all([ageRange(), yearsActiveRange(), Artist.count()])
-    .then(([ageRange, yearsActiveRange, count]) => {
-      return Artist.find({
-          age: {
-            $gte: criteria.age ? criteria.age.min : ageRange.min,
-            $lte: criteria.age ? criteria.age.max : ageRange.max,
-          },
-          yearsActive: {
-            $gte: criteria.yearsActive ? criteria.yearsActive.min : yearsActiveRange.min,
-            $lte: criteria.yearsActive ? criteria.yearsActive.max : yearsActiveRange.max,
-          },
-        })
-        .sort({
-          [sortProperty]: 1,
-        })
-        .skip(offset)
-        .limit(limit)
-        .then(all => ({ all, count, offset, limit }));
-    });
+  const query = Artist.find(buildQuery(criteria))
+    .sort({
+      [sortProperty]: 1,
+    })
+    .skip(offset)
+    .limit(limit);
+
+  return Promise.all([query, Artist.count()])
+    .then(([all, count]) => ({ all, count, offset, limit }));
 };
